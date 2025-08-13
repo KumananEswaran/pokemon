@@ -1,5 +1,37 @@
-# Vue 3 + Vite
+# 😸 Pokemon Browser
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A simple Vue.js app that uses Pinia for state management, Bootstrap for responsive styling, and the PokeAPI to fetch and display Pokemon details.
+---
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## 🚀 Features
+
+- Browse and search Pokemon
+- View Pokemon images and basic info
+- Responsive UI with Bootstrap styling
+- State management with Pinia
+  
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** Vue 3, Bootstrap, Pinia
+- **API:** PokeAPI  
+- **Hosting:** Vercel
+
+---
+
+## ▶️ Getting Started
+
+### 1️⃣ Install Dependencies
+
+```bash
+npm install 
+```
+
+### 2️⃣ Start the Development Server
+
+```bash
+npm run dev
+```
+
+> Open your browser and go to [http://localhost:5173](http://localhost:5173)
