@@ -1,3 +1,136 @@
+<template>
+	<div class="container py-4">
+		<!-- Button to navigate back to home -->
+		<button class="btn btn-secondary mb-3" @click="goBack">
+			← Back to Home
+		</button>
+
+		<!-- Main card showing Pokemon details -->
+		<div class="card mx-auto p-4 pokemon-card" v-if="pokemon">
+			<div class="text-center mb-4">
+				<h1 class="card-title text-capitalize mb-1">{{ pokemon.name }}</h1>
+				<img
+					v-if="pokemon.sprites?.front_default"
+					:src="pokemon.sprites.front_default"
+					alt="pokemon"
+					class="pokemon-image" />
+			</div>
+
+			<!-- Description section-->
+			<section class="description-section">
+				<h4>Pokemon Entry</h4>
+				<p class="description-text">{{ pokemon?.description }}</p>
+			</section>
+
+			<!-- Height, Weight, Base Exp -->
+			<section class="hwbe-section">
+				<div class="hwbe-box">
+					<h4>Height</h4>
+					<p>{{ pokemon.height }}</p>
+				</div>
+				<div class="hwbe-box">
+					<h4>Weight</h4>
+					<p>{{ pokemon.weight }}</p>
+				</div>
+				<div class="hwbe-box">
+					<h4>Base Experience</h4>
+					<p>{{ pokemon.base_experience }}</p>
+				</div>
+			</section>
+
+			<!-- Abilities -->
+			<section class="abilities-section">
+				<h4>Abilities</h4>
+				<div class="abilities-list">
+					<span
+						v-for="(ab, idx) in pokemon.abilities"
+						:key="idx"
+						class="ability-badge">
+						{{ ab }}
+					</span>
+				</div>
+			</section>
+
+			<!-- Stats grid-->
+			<section class="stats-section">
+				<h4>Stats</h4>
+				<div class="row justify-content-center g-3">
+					<div class="col-6 col-sm-4 col-md-2">
+						<div class="stat-box hp text-center">
+							HP: {{ pokemon.stats?.hp ?? 0 }}
+						</div>
+					</div>
+					<div class="col-6 col-sm-4 col-md-2">
+						<div class="stat-box atk text-center">
+							ATK: {{ pokemon.stats?.attack ?? 0 }}
+						</div>
+					</div>
+					<div class="col-6 col-sm-4 col-md-2">
+						<div class="stat-box def text-center">
+							DEF: {{ pokemon.stats?.defense ?? 0 }}
+						</div>
+					</div>
+					<div class="col-6 col-sm-4 col-md-2">
+						<div class="stat-box spa text-center">
+							SpA: {{ pokemon.stats?.['special-attack'] ?? 0 }}
+						</div>
+					</div>
+					<div class="col-6 col-sm-4 col-md-2">
+						<div class="stat-box spd text-center">
+							SpD: {{ pokemon.stats?.['special-defense'] ?? 0 }}
+						</div>
+					</div>
+					<div class="col-6 col-sm-4 col-md-2">
+						<div class="stat-box spe text-center">
+							SPD: {{ pokemon.stats?.speed ?? 0 }}
+						</div>
+					</div>
+				</div>
+
+				<!-- Total stats display -->
+				<div class="d-flex justify-content-center mt-3">
+					<div class="stats-row total px-4 py-2">
+						Total Stats: {{ totalStats }}
+					</div>
+				</div>
+			</section>
+
+			<!-- Evolution Chain -->
+			<section v-if="evolutionChain.length" class="evolution-section">
+				<h4 class="mb-4">Evolution Chain</h4>
+				<div class="evolution-row">
+					<div
+						v-for="(evo, i) in evolutionChain"
+						:key="evo.id ?? i"
+						class="evolution-box">
+						<img
+							:src="evo.sprite"
+							:alt="evo.name"
+							class="evolution-image"
+							v-if="evo.sprite" />
+						<div class="evolution-name">{{ evo.name }}</div>
+						<div class="evolution-level" v-if="evo.level !== null">
+							Lv. {{ evo.level }}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<button class="btn btn-primary w-100 mt-4" @click="openModal">
+				Edit Pokemon Info
+			</button>
+		</div>
+
+		<!-- Edit modal component -->
+		<EditPokemonModal
+			:show="showModal"
+			:pokemonData="pokemon || {}"
+			:description="description"
+			@close="closeModal"
+			@save="handleSave" />
+	</div>
+</template>
+
 <script setup>
 // Import Vue reactive helpers and lifecycle hooks
 import { ref, onMounted, computed } from 'vue';
@@ -183,139 +316,6 @@ function handleSave(updatedData) {
 	});
 }
 </script>
-
-<template>
-	<div class="container py-4">
-		<!-- Button to navigate back to home -->
-		<button class="btn btn-secondary mb-3" @click="goBack">
-			← Back to Home
-		</button>
-
-		<!-- Main card showing Pokemon details -->
-		<div class="card mx-auto p-4 pokemon-card" v-if="pokemon">
-			<div class="text-center mb-4">
-				<h1 class="card-title text-capitalize mb-1">{{ pokemon.name }}</h1>
-				<img
-					v-if="pokemon.sprites?.front_default"
-					:src="pokemon.sprites.front_default"
-					alt="pokemon"
-					class="pokemon-image" />
-			</div>
-
-			<!-- Description section-->
-			<section class="description-section">
-				<h4>Pokemon Entry</h4>
-				<p class="description-text">{{ pokemon?.description }}</p>
-			</section>
-
-			<!-- Height, Weight, Base Exp -->
-			<section class="hwbe-section">
-				<div class="hwbe-box">
-					<h4>Height</h4>
-					<p>{{ pokemon.height }}</p>
-				</div>
-				<div class="hwbe-box">
-					<h4>Weight</h4>
-					<p>{{ pokemon.weight }}</p>
-				</div>
-				<div class="hwbe-box">
-					<h4>Base Experience</h4>
-					<p>{{ pokemon.base_experience }}</p>
-				</div>
-			</section>
-
-			<!-- Abilities -->
-			<section class="abilities-section">
-				<h4>Abilities</h4>
-				<div class="abilities-list">
-					<span
-						v-for="(ab, idx) in pokemon.abilities"
-						:key="idx"
-						class="ability-badge">
-						{{ ab }}
-					</span>
-				</div>
-			</section>
-
-			<!-- Stats grid-->
-			<section class="stats-section">
-				<h4>Stats</h4>
-				<div class="row justify-content-center g-3">
-					<div class="col-6 col-sm-4 col-md-2">
-						<div class="stat-box hp text-center">
-							HP: {{ pokemon.stats?.hp ?? 0 }}
-						</div>
-					</div>
-					<div class="col-6 col-sm-4 col-md-2">
-						<div class="stat-box atk text-center">
-							ATK: {{ pokemon.stats?.attack ?? 0 }}
-						</div>
-					</div>
-					<div class="col-6 col-sm-4 col-md-2">
-						<div class="stat-box def text-center">
-							DEF: {{ pokemon.stats?.defense ?? 0 }}
-						</div>
-					</div>
-					<div class="col-6 col-sm-4 col-md-2">
-						<div class="stat-box spa text-center">
-							SpA: {{ pokemon.stats?.['special-attack'] ?? 0 }}
-						</div>
-					</div>
-					<div class="col-6 col-sm-4 col-md-2">
-						<div class="stat-box spd text-center">
-							SpD: {{ pokemon.stats?.['special-defense'] ?? 0 }}
-						</div>
-					</div>
-					<div class="col-6 col-sm-4 col-md-2">
-						<div class="stat-box spe text-center">
-							SPD: {{ pokemon.stats?.speed ?? 0 }}
-						</div>
-					</div>
-				</div>
-
-				<!-- Total stats display -->
-				<div class="d-flex justify-content-center mt-3">
-					<div class="stats-row total px-4 py-2">
-						Total Stats: {{ totalStats }}
-					</div>
-				</div>
-			</section>
-
-			<!-- Evolution Chain -->
-			<section v-if="evolutionChain.length" class="evolution-section">
-				<h4 class="mb-4">Evolution Chain</h4>
-				<div class="evolution-row">
-					<div
-						v-for="(evo, i) in evolutionChain"
-						:key="evo.id ?? i"
-						class="evolution-box">
-						<img
-							:src="evo.sprite"
-							:alt="evo.name"
-							class="evolution-image"
-							v-if="evo.sprite" />
-						<div class="evolution-name">{{ evo.name }}</div>
-						<div class="evolution-level" v-if="evo.level !== null">
-							Lv. {{ evo.level }}
-						</div>
-					</div>
-				</div>
-			</section>
-
-			<button class="btn btn-primary w-100 mt-4" @click="openModal">
-				Edit Pokemon Info
-			</button>
-		</div>
-
-		<!-- Edit modal component -->
-		<EditPokemonModal
-			:show="showModal"
-			:pokemonData="pokemon || {}"
-			:description="description"
-			@close="closeModal"
-			@save="handleSave" />
-	</div>
-</template>
 
 <style scoped>
 .container {

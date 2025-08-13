@@ -1,17 +1,3 @@
-<script setup>
-// Import Vue reactive reference
-import { ref } from 'vue';
-// Declare the prop "pokemon" to receive the Pokemon object
-defineProps({
-	pokemon: Object,
-});
-
-// State to track if the image is hovered (true/false)
-const hoverImg = ref(false);
-// State to track which stat is hovered (hp, attack, defense, or empty)
-const hoverStat = ref('');
-</script>
-
 <template>
 	<div
 		class="card text-center border rounded shadow-sm p-3 bg-white transition">
@@ -53,6 +39,20 @@ const hoverStat = ref('');
 		</div>
 	</div>
 </template>
+
+<script setup>
+// Import Vue reactive reference
+import { ref } from 'vue';
+// Declare the prop "pokemon" to receive the Pokemon object
+defineProps({
+	pokemon: Object,
+});
+
+// State to track if the image is hovered (true/false)
+const hoverImg = ref(false);
+// State to track which stat is hovered (hp, attack, defense, or empty)
+const hoverStat = ref('');
+</script>
 
 <style scoped>
 .card {

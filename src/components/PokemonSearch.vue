@@ -1,3 +1,16 @@
+<template>
+	<div class="w-100 position-relative">
+		<Transition name="slide">
+			<input
+				type="text"
+				v-model="query"
+				@input="emitSearch"
+				placeholder="Search for a pokemon"
+				class="form-control mb-3 py-3 px-3 border border-secondary rounded shadow-sm" />
+		</Transition>
+	</div>
+</template>
+
 <script setup>
 // Import Vue ref for reactive data
 import { ref } from 'vue';
@@ -11,18 +24,6 @@ const emitSearch = () => {
 	emit('search', query.value);
 };
 </script>
-
-<template>
-	<div class="w-100 position-relative">
-		<Transition name="slide">
-			<input
-				type="text"
-				@input="emitSearch"
-				placeholder="Search for a pokemon"
-				class="form-control mb-3 py-3 px-3 border border-secondary rounded shadow-sm" />
-		</Transition>
-	</div>
-</template>
 
 <style>
 .slide-enter-active {

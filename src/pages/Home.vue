@@ -1,3 +1,38 @@
+<template>
+	<div class="container py-5">
+		<!-- Search input centered at the top -->
+		<div class="d-flex justify-content-center mb-4">
+			<PokemonSearch @search="searchPokemon" />
+		</div>
+
+		<!-- Show loading spinner while data is being fetched -->
+		<div v-if="loading" class="d-flex justify-content-center mb-4">
+			<div class="spinner-border text-primary" role="status">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		</div>
+
+		<!-- Show message if no Pokemon found after searching -->
+		<div
+			v-if="!loading && filteredPokemons.length === 0"
+			class="text-center py-4">
+			<p class="fs-4 text-muted">No Pokemon found for your search</p>
+		</div>
+
+		<!-- Show the list of Pokemon cards with fade transition -->
+		<Transition name="fade" mode="out-in">
+			<PokemonLists
+				v-if="!loading && filteredPokemons.length > 0"
+				:pokemons="filteredPokemons">
+				<!-- Scoped slot to render each Pokemon card -->
+				<template #default="{ pokemon }">
+					<PokemonCard :pokemon="pokemon" />
+				</template>
+			</PokemonLists>
+		</Transition>
+	</div>
+</template>
+
 <script setup>
 // Import Vue reactive and lifecycle helpers
 import { ref, onMounted, computed } from 'vue';
@@ -92,41 +127,6 @@ const searchPokemon = (query) => {
 	searchQuery.value = query;
 };
 </script>
-
-<template>
-	<div class="container py-5">
-		<!-- Search input centered at the top -->
-		<div class="d-flex justify-content-center mb-4">
-			<PokemonSearch @search="searchPokemon" />
-		</div>
-
-		<!-- Show loading spinner while data is being fetched -->
-		<div v-if="loading" class="d-flex justify-content-center mb-4">
-			<div class="spinner-border text-primary" role="status">
-				<span class="visually-hidden">Loading...</span>
-			</div>
-		</div>
-
-		<!-- Show message if no Pokemon found after searching -->
-		<div
-			v-if="!loading && filteredPokemons.length === 0"
-			class="text-center py-4">
-			<p class="fs-4 text-muted">No Pokemon found for your search</p>
-		</div>
-
-		<!-- Show the list of Pokemon cards with fade transition -->
-		<Transition name="fade" mode="out-in">
-			<PokemonLists
-				v-if="!loading && filteredPokemons.length > 0"
-				:pokemons="filteredPokemons">
-				<!-- Scoped slot to render each Pokemon card -->
-				<template #default="{ pokemon }">
-					<PokemonCard :pokemon="pokemon" />
-				</template>
-			</PokemonLists>
-		</Transition>
-	</div>
-</template>
 
 <style>
 .fade-enter-active,

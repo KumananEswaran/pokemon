@@ -1,25 +1,3 @@
-<script setup>
-// Import Vue APIs and router
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { usePokemonStore } from '../stores/pokemonStore';
-
-// Declare a prop to receive the list of Pokemon
-defineProps({ pokemons: Array });
-
-// Reactive state to track which card is hovered
-const hover = ref(null);
-// Get router instance to navigate programmatically
-const router = useRouter();
-// Get the Pokemon store
-const store = usePokemonStore();
-
-// Function to navigate to Pokemon details page by ID
-function goToDetails(id) {
-	router.push(`/pokemon/${id}`);
-}
-</script>
-
 <template>
 	<TransitionGroup name="list" tag="div" class="row g-4 p-3">
 		<div
@@ -44,6 +22,28 @@ function goToDetails(id) {
 		</div>
 	</TransitionGroup>
 </template>
+
+<script setup>
+// Import Vue APIs and router
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { usePokemonStore } from '../stores/pokemonStore';
+
+// Declare a prop to receive the list of Pokemon
+defineProps({ pokemons: Array });
+
+// Reactive state to track which card is hovered
+const hover = ref(null);
+// Get router instance to navigate programmatically
+const router = useRouter();
+// Get the Pokemon store
+const store = usePokemonStore();
+
+// Function to navigate to Pokemon details page by ID
+function goToDetails(id) {
+	router.push(`/pokemon/${id}`);
+}
+</script>
 
 <style>
 .list-move,
