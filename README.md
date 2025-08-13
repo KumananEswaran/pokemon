@@ -3,6 +3,7 @@
 
 
 A simple Vue.js app that uses Pinia for state management, Bootstrap for responsive styling, and the PokeAPI to fetch and display Pokemon details.
+
 ---
 
 ## 🚀 Features
